@@ -25,6 +25,11 @@ export default function CreatePost() {
             </Alert>}
 
             <form className="p-4 rounded-lg w-[45rem] border-2" onSubmit={handleSubmit(async (data) => {
+                if (!data.title || !data.content) {
+                    setError("Please fill out all fields.");
+                    return;
+                }
+
                 try {
                     await createPost.mutateAsync(data);
                     setError(null);

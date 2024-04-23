@@ -5,6 +5,7 @@ import Post, { IPost } from "@/db/Post";
 import { TRPCError } from '@trpc/server';
 import EventEmitter from 'events';
 import { observable } from '@trpc/server/observable';
+import { SafePost } from '@/lib/types';
 
 const emitter = new EventEmitter();
 
@@ -33,6 +34,13 @@ export const postRouter = router({
         .query(async () => {
             const posts = await Post.find().sort({ createdAt: -1 });
             return posts;
+        }),
+    getPost: procedure
+        .input(z.string())
+        .query(async (opts) => {
+            const post = await Post.findById(opts.input);
+            if (!post) throw new TRPCError({ code: 'NOT_FOUND' });
+            return post;
         }),
     postSubscription: procedure
         .subscription(() => {
@@ -69,6 +77,19 @@ export const postRouter = router({
 
             await post.save();
             return { liked };
+        }),
+    deletePost: protectedProcedure
+        .input(z.string())
+        .mutation(async (opts) => {
+            if (!opts.ctx.user) throw new TRPCError({ code: 'UNAUTHORIZED' });
+
+            const post = await Post.findById(opts.input);
+            if (!post) throw new TRPCError({ code: 'NOT_FOUND' });
+
+            if (!post.author_id.equals(opts.ctx.user._id)) throw new TRPCError({ code: 'FORBIDDEN' });
+
+            await post.deleteOne();
+            return { success: true };
         }),
 });
 

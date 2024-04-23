@@ -5,6 +5,7 @@ import Head from "next/head";
 import { HydrationOverlay } from "@builder.io/react-hydration-overlay";
 import { trpc } from '@/lib/trpc';
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +18,8 @@ function App({ Component, pageProps }: AppProps) {
       <TooltipProvider>
         <div className={inter.className}>
           <Component {...pageProps} />
+
+          <Toaster />
         </div>
       </TooltipProvider>
     </HydrationOverlay>

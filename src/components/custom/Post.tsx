@@ -1,6 +1,5 @@
-import { HeartIcon, ShareIcon } from "lucide-react"
+import { ArrowRight, ExternalLinkIcon, HeartIcon, LinkIcon, ShareIcon, TrashIcon } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { IPost } from "@/db/Post"
 import { Button } from "../ui/button"
 import { useUser } from "@/lib/user"
 import { trpc } from "@/lib/trpc"
@@ -8,11 +7,17 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 import { SafePost } from "@/lib/types"
 import { useSetAtom } from "jotai"
 import { postsAtom } from "@/lib/state"
+import Link from "next/link"
+import { useToast } from "../ui/use-toast"
+import { useRouter } from "next/router"
 
-export default function Post(props: Pick<SafePost, "_id" | "title" | "content" | "likes">) {
+export default function Post(props: Pick<SafePost, "_id" | "title" | "content" | "likes" | "author_id"> & { showLink?: boolean }) {
     const setPosts = useSetAtom(postsAtom);
     const user = useUser();
     const like = trpc.post.likePost.useMutation();
+    const deletePost = trpc.post.deletePost.useMutation();
+    const router = useRouter();
+    const { toast } = useToast();
 
     return <div className="w-[45rem] border-2 px-6 py-8 rounded-xl">
         <div className="flex flex-row gap-4">
@@ -25,13 +30,46 @@ export default function Post(props: Pick<SafePost, "_id" | "title" | "content" |
                 <div className="flex flex-row justify-between">
                     <h2 className="text-3xl font-semibold">{props.title}</h2>
                     <div className="flex gap-3 items-center">
-                        <ShareIcon className="text-slate-500" />
+                        {user && user._id === props.author_id &&
+                            <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={async () => {
+                                    await deletePost.mutateAsync(props._id);
+                                    if (router.pathname !== "/") {
+                                        router.push("/");
+                                    } else {
+                                        setPosts((prev) => prev.filter((post) => post._id !== props._id));
+                                    }
+                                }}>
+                                <TrashIcon />
+                            </Button>}
+
+                        <Button variant="outline" size="sm">
+                            <Link href={`/posts/${props._id}`}>
+                                <ExternalLinkIcon className="text-slate-500" />
+                            </Link>
+                        </Button>
+
+
+                        <Button variant="outline" size="sm">
+                            <LinkIcon
+                                className="text-slate-500"
+                                onClick={() => {
+                                    toast({
+                                        title: "Copied link to your clipboard!",
+                                        description: `You can now share with your friends.`,
+                                        duration: 5000
+                                    })
+                                }}
+                            />
+                        </Button>
 
                         <Tooltip delayDuration={50}>
                             <TooltipTrigger asChild>
                                 <Button
                                     variant={"outline"}
-                                    className="flex flex-row gap-2 items-center border p-2 rounded-xl bg-rose-600 text-white"
+                                    className="flex flex-row gap-2 items-center border p-2 rounded-xl bg-rose-600 text-white w-[4rem]"
                                     onClick={async () => {
                                         if (!user) return;
                                         const data = await like.mutateAsync(props._id);

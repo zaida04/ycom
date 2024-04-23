@@ -2,7 +2,6 @@ import CreatePost from "@/components/custom/CreatePost";
 import Post from "@/components/custom/Post";
 import Topbar from "@/components/custom/Topbar";
 import DefaultLayout from "@/components/layout/Default";
-import { IPost } from "@/db/Post";
 import { postsAtom } from "@/lib/state";
 import { trpc } from "@/lib/trpc";
 import { SafePost } from "@/lib/types";
@@ -31,7 +30,7 @@ export default function Home() {
         <CreatePost />
 
         {posts.map((post) => (
-          <Post key={post._id} {...post} />
+          <Post key={post._id} showLink={true} {...post} />
         ))}
       </div>
     </DefaultLayout>

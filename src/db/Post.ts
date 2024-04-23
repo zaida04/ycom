@@ -1,13 +1,17 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
-export interface IPost extends Document {
+export interface IPost {
+    _id: string;
     title: string;
     content: string;
     author_id: mongoose.Types.ObjectId;
     likes: mongoose.Types.ObjectId[];
+    createdAt: Date;
+    updatedAt: Date;
 }
+interface IPostDocument extends Omit<IPost, "_id">, mongoose.Document { }
 
-const PostSchema: Schema = new Schema({
+const PostSchema: Schema = new Schema<IPostDocument>({
     title: { type: String, required: true },
     content: { type: String, required: true },
     author_id: {
@@ -19,11 +23,10 @@ const PostSchema: Schema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
 
-const Post = mongoose.models.Post as mongoose.Model<IPost> ?? mongoose.model<IPost>('Post', PostSchema);
+const Post: mongoose.Model<IPostDocument> = mongoose.models.Post || mongoose.model<IPostDocument>('Post', PostSchema);
 
 export default Post;
