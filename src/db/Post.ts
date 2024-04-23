@@ -4,6 +4,7 @@ export interface IPost extends Document {
     title: string;
     content: string;
     author_id: mongoose.Schema.Types.ObjectId;
+    likes: mongoose.Schema.Types.ObjectId[];
 }
 
 const PostSchema: Schema = new Schema({
@@ -14,6 +15,11 @@ const PostSchema: Schema = new Schema({
         required: true,
         ref: 'User'
     },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

@@ -1,4 +1,4 @@
-import { TRPCClientError, httpBatchLink } from '@trpc/client';
+import { TRPCClientError, createWSClient, httpBatchLink, wsLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import type { AppRouter } from '@/server/_app';
 
@@ -15,12 +15,12 @@ export const trpc = createTRPCNext<AppRouter>({
             links: [
                 httpBatchLink({
                     url: `${getBaseUrl()}/api/trpc`,
-                    async headers() {
-                        return {
-                            // authorization: getAuthCookie(),
-                        };
-                    },
                 }),
+                wsLink({
+                    client: createWSClient({
+                        url: `${getBaseUrl().replace('http', 'ws')}/api/trpc`,
+                    }),
+                })
             ],
         };
     },

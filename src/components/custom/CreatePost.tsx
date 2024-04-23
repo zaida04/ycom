@@ -23,6 +23,7 @@ export default function CreatePost() {
                     {error}
                 </AlertDescription>
             </Alert>}
+
             <form className="p-4 rounded-lg w-[50rem] border-2" onSubmit={handleSubmit(async (data) => {
                 try {
                     await createPost.mutateAsync(data);
@@ -47,7 +48,7 @@ export default function CreatePost() {
                     </div>
 
                     <Textarea
-                        placeholder="Yeet something!"
+                        placeholder="Say something!"
                         rows={3}
                         className="textarea textarea-sm flex-1 border"
                         {...register("content")}
