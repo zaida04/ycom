@@ -10,7 +10,7 @@ export const userAtom = atom<{ username: string; email: string; name: string; _i
 
 export function useUser() {
     const [user, setUser] = useAtom(userAtom);
-    const isLogged = trpc.isLogged.useQuery(undefined, {
+    const isLogged = trpc.user.isLogged.useQuery(undefined, {
         "refetchOnMount": false,
         "refetchOnReconnect": false,
         "refetchOnWindowFocus": false,

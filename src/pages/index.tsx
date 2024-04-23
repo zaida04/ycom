@@ -8,8 +8,8 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [posts, setPosts] = useState<IPost[]>([]);
-  const getPosts = trpc.getPosts.useQuery();
-  trpc.postSubscription.useSubscription(undefined, {
+  const getPosts = trpc.post.getPosts.useQuery();
+  trpc.post.postSubscription.useSubscription(undefined, {
     onData: (data) => {
       console.log(data);
       setPosts((prev) => [...prev, data.post as IPost]);

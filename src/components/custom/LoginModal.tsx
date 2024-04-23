@@ -15,7 +15,7 @@ export default function LoginModal() {
     const { register, handleSubmit, formState } = useForm<LoginModalFormInputs>();
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-    const login = trpc.login.useMutation();
+    const login = trpc.user.login.useMutation();
 
     return (
         <DialogContent className="sm:max-w-[45rem]">

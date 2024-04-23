@@ -8,7 +8,7 @@ import { trpc } from "@/lib/trpc";
 
 export default function Topbar() {
     const user = useUser();
-    const logout = trpc.logout.useMutation();
+    const logout = trpc.user.logout.useMutation();
 
     return <div className="flex flex-row gap-2 justify-end mb-8 mx-8">
         {user === null ?

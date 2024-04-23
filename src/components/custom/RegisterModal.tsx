@@ -18,7 +18,7 @@ export default function RegisterModal() {
     const { register, handleSubmit, formState } = useForm<RegisterFormInputs>();
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-    const mutation = trpc.register.useMutation();
+    const mutation = trpc.user.register.useMutation();
 
     return (
         <DialogContent className="sm:max-w-[45rem]">

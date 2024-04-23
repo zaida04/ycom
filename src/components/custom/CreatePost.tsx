@@ -13,7 +13,7 @@ interface PostFormData {
 }
 export default function CreatePost() {
     const { register, handleSubmit } = useForm<PostFormData>();
-    const createPost = trpc.createPost.useMutation();
+    const createPost = trpc.post.createPost.useMutation();
     const [error, setError] = useState<string | null>(null);
 
     return (
