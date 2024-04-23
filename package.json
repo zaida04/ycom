@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "typecheck": "tsc --noEmit",
-    "start": "next start",
-    "lint": "next lint",
+    "start:db": "docker compose up -d mongo",
     "add": "shadcn-ui add"
   },
   "dependencies": {

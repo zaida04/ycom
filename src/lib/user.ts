@@ -1,7 +1,7 @@
-import { IUser } from "@/db/User";
 import { atom, useAtom } from "jotai";
 import { useEffect } from "react";
 import { trpc } from "./trpc";
+import { no_refetch } from "./utils";
 
 // false means not loaded
 // null means not logged
@@ -10,13 +10,7 @@ export const userAtom = atom<{ username: string; email: string; name: string; _i
 
 export function useUser() {
     const [user, setUser] = useAtom(userAtom);
-    const isLogged = trpc.user.isLogged.useQuery(undefined, {
-        "refetchOnMount": false,
-        "refetchOnReconnect": false,
-        "refetchOnWindowFocus": false,
-        "refetchInterval": false,
-        "refetchIntervalInBackground": false,
-    });
+    const isLogged = trpc.user.isLogged.useQuery(undefined, no_refetch);
 
     useEffect(() => {
         if (isLogged.data?.logged && isLogged.data?.user) {

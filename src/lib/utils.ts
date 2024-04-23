@@ -4,3 +4,11 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+export const no_refetch = {
+  "refetchOnMount": false,
+  "refetchOnReconnect": false,
+  "refetchOnWindowFocus": false,
+  "refetchInterval": false,
+  "refetchIntervalInBackground": false,
+} as const

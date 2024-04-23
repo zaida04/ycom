@@ -113,6 +113,25 @@ export const userRouter = router({
                 }
             };
         }),
+    search: procedure
+        .input(
+            z.object({
+                username: z.string().min(1).max(30),
+            }),
+        )
+        .query(async (opts) => {
+            const { username } = opts.input;
+            const users = await User.find({ username: { $regex: username, $options: 'i' } });
+
+            return {
+                results: users.map(user => ({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    username: user.username,
+                }))
+            };
+        }),
 });
 
 export type UserRouter = typeof userRouter;
