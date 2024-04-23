@@ -1,10 +1,11 @@
 import { z } from 'zod';
-import { procedure, router } from './trpc';
+import { procedure, protectedProcedure, router } from './trpc';
 import "@/lib/mongoose";
 import User from "@/db/User";
 import bcrypt from "bcryptjs";
 import { generateHashedValue } from '@/lib/hash';
 import Session from '@/db/Session';
+import { TRPCError } from '@trpc/server';
 
 export const userRouter = router({
     register: procedure
@@ -106,10 +107,10 @@ export const userRouter = router({
             return {
                 logged: true,
                 user: {
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    username: user.username,
+                    _id: user!._id,
+                    name: user!.name,
+                    email: user!.email,
+                    username: user!.username,
                 }
             };
         }),
@@ -131,6 +132,54 @@ export const userRouter = router({
                     username: user.username,
                 }))
             };
+        }),
+    getCurrentUser: protectedProcedure
+        .query(async (opts) => {
+            if (!opts.ctx.user) throw new TRPCError({ code: 'UNAUTHORIZED' });
+            const user = opts.ctx.user;
+
+            return {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                username: user.username,
+            };
+        }),
+    updateProfile: protectedProcedure
+        .input(
+            z.object({
+                name: z.string().min(2).max(30).optional(),
+                email: z.string().email().optional(),
+                username: z.string().min(2).max(30).optional(),
+                password: z.string().min(3).max(30).optional(),
+                confirmPassword: z.string().min(3).max(30).optional(),
+            }),
+        )
+        .mutation(async ({ ctx, input }) => {
+            const { name, email, username, password, confirmPassword } = input;
+            if (!ctx.user) throw new TRPCError({ code: 'UNAUTHORIZED' });
+
+            if ((password || confirmPassword) && (password !== confirmPassword))
+                throw new TRPCError({ code: 'BAD_REQUEST', message: 'Passwords do not match' });
+
+            const user = await User.findById(ctx.user._id);
+            if (!user) throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
+
+            const existing = await User.findOne({ $or: [{ email }, { username }], _id: { $ne: user._id } });
+            if (existing) throw new TRPCError({ code: 'CONFLICT', message: 'Email or username already in use' });
+
+            if (password && confirmPassword) {
+                const salt = await bcrypt.genSalt(10);
+                user.password = generateHashedValue(password + salt);
+                user.salt = salt;
+            }
+
+            if (name) user.name = name;
+            if (email) user.email = email;
+            if (username) user.username = username;
+            await user.save();
+
+            return { success: true, message: "Profile updated successfully" };
         }),
 });
 
