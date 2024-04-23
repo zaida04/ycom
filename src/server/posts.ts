@@ -26,7 +26,24 @@ export const postRouter = router({
                 content,
                 author_id: opts.ctx.user._id
             });
-            emitter.emit('newPost', created);
+
+            try {
+                console.log('Broadcasting newPost', created);
+                const req = await fetch('http://localhost:3001/broadcast', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        event: 'newPost',
+                        message: created,
+                    }),
+                });
+                const res = await req.json();
+                console.log('Broadcasted newPost');
+            } catch (e) {
+                console.error(e);
+            }
 
             return { success: true };
         }),
@@ -41,22 +58,6 @@ export const postRouter = router({
             const post = await Post.findById(opts.input);
             if (!post) throw new TRPCError({ code: 'NOT_FOUND' });
             return post;
-        }),
-    postSubscription: procedure
-        .subscription(() => {
-            console.log("SUB")
-
-            return observable<{ post: IPost }>((observer) => {
-                const emitPost = (post: IPost) => {
-                    console.log("NEW");
-                    observer.next({ post });
-                }
-
-                emitter.on('newPost', emitPost);
-                return () => {
-                    emitter.off('newPost', emitPost);
-                }
-            });
         }),
     likePost: protectedProcedure
         .input(z.string())

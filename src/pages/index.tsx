@@ -6,6 +6,7 @@ import { postsAtom } from "@/lib/state";
 import { trpc } from "@/lib/trpc";
 import { SafePost } from "@/lib/types";
 import { useUser } from "@/lib/user";
+import { useSocket } from "@/ws/hook";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 
@@ -13,15 +14,24 @@ export default function Home() {
   const [posts, setPosts] = useAtom(postsAtom);
   const user = useUser();
   const getPosts = trpc.post.getPosts.useQuery();
-  trpc.post.postSubscription.useSubscription(undefined, {
-    onData: (data) => {
-      setPosts((prev) => [...prev, data.post as SafePost]);
-    },
-  });
+  const socket = useSocket();
 
   useEffect(() => {
     setPosts(getPosts.data as SafePost[] ?? []);
   }, [getPosts.data]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on('newPost', (post: SafePost) => {
+      console.log(post);
+      setPosts((posts) => [post, ...posts]);
+    });
+
+    return () => {
+      socket.off('newPost');
+    };
+  }, [socket]);
 
   return (
     <DefaultLayout>

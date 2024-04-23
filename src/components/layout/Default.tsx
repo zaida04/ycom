@@ -1,5 +1,5 @@
 import React from "react";
-import { LucideIcon, NotebookIcon, PencilIcon, UserIcon } from "lucide-react";
+import { CircleUserIcon, LucideIcon, NotebookIcon, PaintbrushIcon, PencilIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useUser } from "@/lib/user";
@@ -13,9 +13,9 @@ export default function DefaultLayout(props: { children: React.ReactNode }) {
             <div className="flex flex-col gap-5 text-2xl">
                 <MenuItem icon={NotebookIcon} link="/" text="All Posts" />
                 <MenuItem icon={UserIcon} link="/search" text="Search Users" />
-                <MenuItem icon={PencilIcon} link="/drawing" text="Drawing Board" />
-                <MenuItem icon={UserIcon} link={user ? `/users/${user!._id}` : ""} text="Your Profile" />
-                <MenuItem icon={UserIcon} link="/your-profile" text="Edit Your Profile" />
+                <MenuItem icon={PaintbrushIcon} link="/drawing" text="Drawing Board" />
+                <MenuItem icon={CircleUserIcon} link={user ? `/users/${user!._id}` : ""} text="Your Profile" />
+                <MenuItem icon={PencilIcon} link="/your-profile" text="Edit Your Profile" />
             </div>
         </div>
 
