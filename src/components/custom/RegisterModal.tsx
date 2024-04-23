@@ -1,8 +1,11 @@
-import { trpc } from "@/lib/trpc";
+import { TRPCClientErr, trpc } from "@/lib/trpc";
 import { Button } from "../ui/button";
-import { DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
+import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import ModalInput from "./ModalInput";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { Alert, AlertDescription } from "../ui/alert";
+import { useRouter } from "next/router";
 
 interface RegisterFormInputs {
     name: string;
@@ -13,6 +16,8 @@ interface RegisterFormInputs {
 }
 export default function RegisterModal() {
     const { register, handleSubmit, formState } = useForm<RegisterFormInputs>();
+    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
     const mutation = trpc.register.useMutation();
 
     return (
@@ -23,11 +28,24 @@ export default function RegisterModal() {
                     Join us, or perish.
                 </DialogDescription>
             </DialogHeader>
+            {error && <Alert variant="destructive">
+                <AlertDescription>
+                    {error}
+                </AlertDescription>
+            </Alert>}
+
             <form className="grid gap-4 py-4" onSubmit={handleSubmit(
                 async (data) => {
-                    console.log(data);
-                    const created = await mutation.mutateAsync(data);
-                    console.log(created);
+                    try {
+                        const created = await mutation.mutateAsync(data);
+                        setError(null);
+
+                        if (created) {
+                            router.reload();
+                        }
+                    } catch (e) {
+                        setError((e as TRPCClientErr).message);
+                    }
                 })
             }>
                 <ModalInput

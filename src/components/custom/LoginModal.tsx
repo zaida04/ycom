@@ -1,8 +1,22 @@
+import { TRPCClientErr, trpc } from "@/lib/trpc";
 import { Button } from "../ui/button";
-import { DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
+import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import ModalInput from "./ModalInput";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { Alert, AlertDescription } from "../ui/alert";
 
+interface LoginModalFormInputs {
+    username: string;
+    password: string;
+}
 export default function LoginModal() {
+    const { register, handleSubmit, formState } = useForm<LoginModalFormInputs>();
+    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
+    const login = trpc.login.useMutation();
+
     return (
         <DialogContent className="sm:max-w-[45rem]">
             <DialogHeader>
@@ -11,17 +25,40 @@ export default function LoginModal() {
                     Get in here.
                 </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-                <ModalInput id="email" label="Email" placeholder="you@email.com" />
-                <ModalInput id="password" label="Password" type="password" placeholder="Your password" />
-            </div>
+            {error && <Alert variant="destructive">
+                <AlertDescription>
+                    {error}
+                </AlertDescription>
+            </Alert>}
 
-            <DialogFooter>
-                <DialogClose asChild>
-                    <Button variant="outline">Cancel</Button>
-                </DialogClose>
+            <form className="grid gap-4 py-4" onSubmit={handleSubmit(async (data) => {
+                try {
+                    const created = await login.mutateAsync(data);
+                    setError(null);
+
+                    if (created) {
+                        router.reload();
+                    }
+                } catch (e) {
+                    setError((e as TRPCClientErr).message);
+                }
+            })}>
+                <ModalInput
+                    label="Username"
+                    placeholder="deeznufs"
+                    error={formState.errors.username?.message}
+                    formState={register("username")}
+                />
+                <ModalInput
+                    label="Password"
+                    type="password"
+                    placeholder="Your password"
+                    error={formState.errors.password?.message}
+                    formState={register("password")}
+                />
+
                 <Button type="submit">Log In</Button>
-            </DialogFooter>
+            </form>
         </DialogContent>
     )
 }

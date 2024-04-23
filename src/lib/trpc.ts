@@ -1,4 +1,4 @@
-import { httpBatchLink } from '@trpc/client';
+import { TRPCClientError, httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import type { AppRouter } from '@/server/_app';
 
@@ -26,3 +26,5 @@ export const trpc = createTRPCNext<AppRouter>({
     },
     ssr: false,
 });
+
+export type TRPCClientErr = TRPCClientError<AppRouter>;

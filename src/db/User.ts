@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 // This is for typescript
 export interface IUser extends Document {
+    name: string;
     username: string;
     email: string;
     password: string;
@@ -14,6 +15,7 @@ export interface IUser extends Document {
 
 // This is for mongodb to know what we are storing
 const UserSchema: Schema = new Schema({
+    name: { type: String, required: true },
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -22,6 +24,6 @@ const UserSchema: Schema = new Schema({
     updatedAt: { type: Date, default: Date.now },
 });
 
-const User = mongoose.model<IUser>('User', UserSchema);
+const User = mongoose.models.User ?? mongoose.model<IUser>('User', UserSchema);
 
 export default User;
