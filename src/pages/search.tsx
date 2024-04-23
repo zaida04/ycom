@@ -5,6 +5,7 @@ import { trpc } from "@/lib/trpc";
 import { no_refetch } from "@/lib/utils";
 import { skipToken } from "@tanstack/react-query";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function SearchUsers() {
     const [input, setInput] = useState("");
@@ -17,7 +18,7 @@ export default function SearchUsers() {
                 <h1 className="text-4xl font-bold mb-2">Search for a user</h1>
                 <Input className="text-xl w-3/4" onChange={(e) => {
                     setInput(e.target.value);
-                }}></Input>
+                }} />
 
                 <div className="flex flex-col gap-4 mt-4">
                     {results.length ? results.map((user) => (
@@ -47,7 +48,9 @@ function UserItem(props: {
             </Avatar>
 
             <div>
-                <h2 className="text-xl font-bold">{props.name}</h2>
+                <Link href={`/users/${props.id}`} className="underline underline-offset-2">
+                    <h2 className="text-xl font-bold">{props.name}</h2>
+                </Link>
                 <p className="text-gray-500">@{props.username}</p>
             </div>
         </div>

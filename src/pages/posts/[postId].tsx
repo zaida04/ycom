@@ -2,7 +2,6 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import DefaultLayout from '@/components/layout/Default';
 import { trpc } from '@/lib/trpc';
-import { IPost } from '@/db/Post';
 import Post from '@/components/custom/Post';
 import Link from 'next/link';
 import { SafePost } from '@/lib/types';

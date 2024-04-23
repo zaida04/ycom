@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { generateHashedValue } from '@/lib/hash';
 import Session from '@/db/Session';
 import { TRPCError } from '@trpc/server';
+import Post from '@/db/Post';
 
 export const userRouter = router({
     register: procedure
@@ -131,6 +132,23 @@ export const userRouter = router({
                     email: user.email,
                     username: user.username,
                 }))
+            };
+        }),
+    getUser: procedure
+        .input(z.string())
+        .query(async (opts) => {
+            const user = await User.findById(opts.input);
+            if (!user) {
+                throw new Error('User not found');
+            }
+            const posts = await Post.find({ author_id: user._id }, null, { sort: { created_at: -1 } });
+
+            return {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                username: user.username,
+                posts
             };
         }),
     getCurrentUser: protectedProcedure
