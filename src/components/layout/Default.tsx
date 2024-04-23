@@ -9,7 +9,7 @@ export default function DefaultLayout(props: { children: React.ReactNode }) {
             <h1 className="font-bold text-4xl">Y.com</h1>
             <div className="flex flex-col gap-5 text-2xl">
                 <MenuItem icon={NotebookIcon} link="/" text="All Posts" />
-                <MenuItem icon={UserIcon} link="/users/search" text="Search Users" />
+                <MenuItem icon={UserIcon} link="/search" text="Search Users" />
                 <MenuItem icon={PencilIcon} link="/drawing" text="Drawing Board" />
                 <MenuItem icon={UserIcon} link="/your-profile" text="Your Profile" />
             </div>
@@ -26,11 +26,14 @@ function MenuItem(props: { icon: LucideIcon; link: string; text: string; }) {
     const isCurrent = router.pathname === props.link;
 
     return (
-        <span className={`flex flex-row gap-4 items-center rounded-xl px-2 py-2 ${isCurrent ? "bg-slate-600" : "hover:bg-slate-600 transition-all"}`}>
-            <props.icon />
-            <Link href={props.link} className="font-medium underline underline-offset-4 decoration-slate-700">
-                {props.text}
-            </Link>
-        </span>
+        <Link href={props.link}>
+            <span className={`flex flex-row gap-4 items-center rounded-xl px-2 py-2 ${isCurrent ? "bg-slate-600" : "hover:bg-slate-600 transition-all"}`}>
+                <props.icon />
+                <p className="font-medium underline underline-offset-4 decoration-slate-700">
+                    {props.text}
+                </p>
+            </span>
+        </Link>
+
     );
 }

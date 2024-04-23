@@ -1,7 +1,7 @@
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
-interface ModalInputProps extends React.ComponentProps<typeof Input> {
+export interface ModalInputProps extends React.ComponentProps<typeof Input> {
     label: string;
 }
 
