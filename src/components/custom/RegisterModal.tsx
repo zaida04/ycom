@@ -52,19 +52,27 @@ export default function RegisterModal() {
                     label="Display Name"
                     placeholder="Zaid Arshad"
                     error={formState.errors.name?.message}
-                    formState={register("name")}
+                    formState={register("name", {
+                        required: "This field is required."
+                    })}
                 />
                 <ModalInput
                     label="Email"
                     placeholder="you@email.com"
                     error={formState.errors.email?.message}
-                    formState={register("email")}
+                    formState={register("email", {
+                        required: "This field is required."
+
+                    })}
                 />
                 <ModalInput
                     label="Username"
                     placeholder="@deeznufs"
                     error={formState.errors.username?.message}
-                    formState={register("username")}
+                    formState={register("username", {
+                        required: "This field is required."
+
+                    })}
                 />
                 <ModalInput
                     label="Password"
@@ -72,7 +80,9 @@ export default function RegisterModal() {
                     placeholder="T@stpass1"
                     autoComplete="false"
                     error={formState.errors.password?.message}
-                    formState={register("password")}
+                    formState={register("password", {
+                        required: "This field is required.",
+                    })}
                 />
                 <ModalInput
                     label="Confirm Password"
@@ -80,7 +90,10 @@ export default function RegisterModal() {
                     placeholder="T@stpass1"
                     autoComplete="false"
                     error={formState.errors.confirmPassword?.message}
-                    formState={register("confirmPassword")}
+                    formState={register("confirmPassword", {
+                        required: "This field is required.",
+                        validate: (value, others) => others.password === value || "Passwords do not match."
+                    })}
                 />
                 <Button type="submit">Create Account</Button>
             </form>

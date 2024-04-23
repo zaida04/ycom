@@ -47,14 +47,18 @@ export default function LoginModal() {
                     label="Username"
                     placeholder="deeznufs"
                     error={formState.errors.username?.message}
-                    formState={register("username")}
+                    formState={register("username", {
+                        required: "This field is required."
+                    })}
                 />
                 <ModalInput
                     label="Password"
                     type="password"
                     placeholder="Your password"
                     error={formState.errors.password?.message}
-                    formState={register("password")}
+                    formState={register("password", {
+                        required: "This field is required."
+                    })}
                 />
 
                 <Button type="submit">Log In</Button>
