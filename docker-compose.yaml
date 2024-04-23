@@ -1,0 +1,15 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:4.2.5
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: webcrawlers
+      MONGO_INITDB_ROOT_PASSWORD: blah
+      MONGO_INITDB_DATABASE: cse312
+    volumes:
+      - mongo-vol:/data/db
+
+volumes:
+  mongo-vol:

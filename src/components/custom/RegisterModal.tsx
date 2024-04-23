@@ -12,8 +12,7 @@ interface RegisterFormInputs {
     confirmPassword: string;
 }
 export default function RegisterModal() {
-    const { register, handleSubmit, formState, watch } = useForm<RegisterFormInputs>();
-    watch(["name", "email", "username", "password", "confirmPassword"]);
+    const { register, handleSubmit, formState } = useForm<RegisterFormInputs>();
     const mutation = trpc.register.useMutation();
 
     return (
@@ -26,45 +25,44 @@ export default function RegisterModal() {
             </DialogHeader>
             <form className="grid gap-4 py-4" onSubmit={handleSubmit(
                 async (data) => {
+                    console.log(data);
                     const created = await mutation.mutateAsync(data);
+                    console.log(created);
                 })
             }>
                 <ModalInput
-                    id="name"
                     label="Display Name"
                     placeholder="Zaid Arshad"
                     error={formState.errors.name?.message}
-                    {...register("name", { required: "Name is required" })}
+                    formState={register("name")}
                 />
                 <ModalInput
-                    id="email"
                     label="Email"
                     placeholder="you@email.com"
                     error={formState.errors.email?.message}
-                    {...register("email", { required: "Email is required" })}
+                    formState={register("email")}
                 />
                 <ModalInput
-                    id="username"
                     label="Username"
                     placeholder="@deeznufs"
                     error={formState.errors.username?.message}
-                    {...register("username", { required: "Username is required" })}
+                    formState={register("username")}
                 />
                 <ModalInput
-                    id="password"
                     label="Password"
                     type="password"
                     placeholder="T@stpass1"
+                    autoComplete="false"
                     error={formState.errors.password?.message}
-                    {...register("password", { required: "Password is required" })}
+                    formState={register("password")}
                 />
                 <ModalInput
-                    id="confirmPassword"
                     label="Confirm Password"
                     type="password"
                     placeholder="T@stpass1"
+                    autoComplete="false"
                     error={formState.errors.confirmPassword?.message}
-                    {...register("confirmPassword", { required: "Confirm Password is required" })}
+                    formState={register("confirmPassword")}
                 />
                 <Button type="submit">Create Account</Button>
             </form>
