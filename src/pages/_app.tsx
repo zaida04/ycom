@@ -3,10 +3,11 @@ import type { AppProps } from "next/app";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import { HydrationOverlay } from "@builder.io/react-hydration-overlay";
+import { trpc } from '@/lib/trpc';
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return <>
     <Head>
       <title>Y.com | X, but better</title>
@@ -18,3 +19,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </HydrationOverlay>
   </>
 }
+
+export default trpc.withTRPC(App);
