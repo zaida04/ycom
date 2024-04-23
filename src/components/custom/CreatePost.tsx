@@ -24,7 +24,7 @@ export default function CreatePost() {
                 </AlertDescription>
             </Alert>}
 
-            <form className="p-4 rounded-lg w-[50rem] border-2" onSubmit={handleSubmit(async (data) => {
+            <form className="p-4 rounded-lg w-[45rem] border-2" onSubmit={handleSubmit(async (data) => {
                 try {
                     await createPost.mutateAsync(data);
                     setError(null);

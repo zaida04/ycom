@@ -3,8 +3,8 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IPost extends Document {
     title: string;
     content: string;
-    author_id: mongoose.Schema.Types.ObjectId;
-    likes: mongoose.Schema.Types.ObjectId[];
+    author_id: mongoose.Types.ObjectId;
+    likes: mongoose.Types.ObjectId[];
 }
 
 const PostSchema: Schema = new Schema({
@@ -24,6 +24,6 @@ const PostSchema: Schema = new Schema({
     updatedAt: { type: Date, default: Date.now },
 });
 
-const Post = mongoose.models.Post ?? mongoose.model<IPost>('Post', PostSchema);
+const Post = mongoose.models.Post as mongoose.Model<IPost> ?? mongoose.model<IPost>('Post', PostSchema);
 
 export default Post;

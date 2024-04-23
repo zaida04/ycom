@@ -50,6 +50,26 @@ export const postRouter = router({
                 }
             });
         }),
+    likePost: protectedProcedure
+        .input(z.string())
+        .mutation(async (opts) => {
+            if (!opts.ctx.user) throw new TRPCError({ code: 'UNAUTHORIZED' });
+            const userId = opts.ctx.user._id;
+
+            const post = await Post.findById(opts.input);
+            if (!post) throw new TRPCError({ code: 'NOT_FOUND' });
+
+            let liked = false;
+            if (post.likes.some((id) => id.equals(userId))) {
+                post.likes = post.likes.filter((id) => !id.equals(userId));
+            } else {
+                post.likes.push(opts.ctx.user._id);
+                liked = true;
+            }
+
+            await post.save();
+            return { liked };
+        }),
 });
 
 export type PostRouter = typeof postRouter;
