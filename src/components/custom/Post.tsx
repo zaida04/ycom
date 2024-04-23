@@ -1,3 +1,4 @@
+import { HeartIcon, ShareIcon } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 export default function Post() {
@@ -9,8 +10,14 @@ export default function Post() {
             </Avatar>
 
             <div className="flex flex-col gap-2">
-                <h2 className="text-3xl font-semibold">Title here</h2>
-                <p>Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum </p>
+                <div className="flex flex-row justify-between">
+                    <h2 className="text-3xl font-semibold">Title here</h2>
+                    <div className="flex gap-3">
+                        <HeartIcon className="text-slate-500" />
+                        <ShareIcon className="text-slate-500" />
+                    </div>
+                </div>
+                <p>Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum </p>
             </div>
         </div>
     </div>
