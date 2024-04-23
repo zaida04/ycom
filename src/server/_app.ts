@@ -1,10 +1,12 @@
 import { z } from 'zod';
-import { procedure, router } from './trpc';
+import { procedure, protectedProcedure, router } from './trpc';
 import "@/lib/mongoose";
 import User from "@/db/User";
 import bcrypt from "bcryptjs";
 import { generateHashedValue } from '@/lib/hash';
 import Session from '@/db/Session';
+import Post from '@/db/Post';
+import { TRPCError } from '@trpc/server';
 
 export const appRouter = router({
     register: procedure
@@ -125,6 +127,29 @@ export const appRouter = router({
                     username: user.username,
                 }
             };
+        }),
+    createPost: protectedProcedure
+        .input(
+            z.object({
+                title: z.string()
+                    .min(2)
+                    .max(100),
+                content: z.string()
+                    .min(2)
+                    .max(1000),
+            }),
+        )
+        .mutation(async (opts) => {
+            if (!opts.ctx.user) throw new TRPCError({ code: 'UNAUTHORIZED' });
+
+            const { title, content } = opts.input;
+            await Post.create({
+                title,
+                content,
+                author_id: opts.ctx.user._id
+            });
+
+            return { success: true };
         }),
 });
 

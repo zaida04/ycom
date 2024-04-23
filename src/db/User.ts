@@ -8,8 +8,6 @@ export interface IUser extends Document {
     password: string;
     createdAt: Date;
     salt: string;
-    authenticationToken: string;
-    refreshToken: string;
     updatedAt: Date;
 }
 
