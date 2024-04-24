@@ -8,6 +8,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "start:db": "docker compose up -d mongo",
+    "start:prod": "docker compose -f docker-compose.yaml -f docker-compose.prod.yaml",
     "add": "shadcn-ui add"
   },
   "dependencies": {
