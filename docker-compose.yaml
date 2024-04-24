@@ -26,7 +26,6 @@ services:
     env_file:
       - .env.docker
 
-
   caddy:
     image: caddy:2
     ports:

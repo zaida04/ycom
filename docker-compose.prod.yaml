@@ -3,10 +3,10 @@ version: '3.7'
 services:
   ws:
     image: ghcr.io/zaida04/312p2/ws:latest
+    env_file:
+      - .env.production
 
   api:
     image: ghcr.io/zaida04/312p2/api:latest
-    environment:
-      WS_URL: http://ws:3001/broadcast
-      DATABASE_URL: mongodb://webcrawlers:blah@mongo:27017/
-      NEXT_PUBLIC_WS_URL: https://312.nico.engineer
+    env_file:
+      - .env.production
