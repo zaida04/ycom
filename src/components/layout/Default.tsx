@@ -17,7 +17,6 @@ export default function DefaultLayout(props: { children: React.ReactNode }) {
                 {user && <MenuItem icon={CircleUserIcon} link={user ? `/users/${user!._id}` : ""} text="Your Profile" />}
                 <MenuItem icon={PencilIcon} link="/your-profile" text="Edit Profile" />
                 <MenuItem icon={GithubIcon} link="https://github.com/zaida04" text="Follow me for a cookie :p" />
-                <MenuItem icon={PackageIcon} link="https://nico.engineer" text="Mandatory self-promo" />
             </div>
         </div>
 
