@@ -6,7 +6,7 @@
     }
 }
 
-localhost, 312.nico.engineer {
+localhost, cse.lonk.lol {
     rewrite /ws/socket.io /ws/socket.io/
     reverse_proxy /ws/socket.io/* ws:3001 {
         header_up Host {http.request.host}
