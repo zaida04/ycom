@@ -5,6 +5,7 @@ COPY package.json bun.lockb ./
 
 RUN bun install --frozen-lockfile
 COPY next.config.mjs postcss.config.mjs tailwind.config.ts tsconfig.json ./
+COPY public ./public
 COPY src ./src
 
 ENV NODE_ENV=production
