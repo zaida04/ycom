@@ -33,11 +33,13 @@ export default function Home() {
     };
   }, [socket]);
 
-  if (getPosts.isLoading) return <DefaultLayout>
-    <div className="flex w-full h-full justify-center items-center">
-      <LoaderIcon className="w-64 h-64" />
-    </div>
-  </DefaultLayout>
+  if (getPosts.isLoading) {
+    return <DefaultLayout>
+      <div className="flex w-full h-full justify-center items-center">
+        <LoaderIcon className="w-32 h-32" />
+      </div>
+    </DefaultLayout>
+  }
 
   return (
     <DefaultLayout>
