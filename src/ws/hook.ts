@@ -8,6 +8,7 @@ export function useSocket() {
     useEffect(() => {
         console.log(`Connecting to ${wsPublicUrl}.`)
         const socketIo = io(wsPublicUrl, {
+            path: "/ws/socket.io",
             reconnection: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 3000,

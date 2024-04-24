@@ -1,15 +1,22 @@
 {
     log {
         output stdout
-        level DEBUG
+        level debug
+        format console
     }
 }
 
 localhost, 312.nico.engineer {
-    handle_path /socket.io/* {
-        reverse_proxy localhost:3001 {
-            header_up Connection {http.request.header.Connection}
-            header_up Upgrade {http.request.header.Upgrade}
+    rewrite /ws/socket.io /ws/socket.io/
+    reverse_proxy /ws/socket.io/* ws:3001 {
+        header_up Host {http.request.host}
+        header_up X-Real-IP {http.request.remote.host}
+        header_up X-Forwarded-For {http.request.remote}
+        header_up X-Forwarded-Proto {http.request.scheme}
+    }
+
+    handle_path /ws/* {
+        reverse_proxy ws:3001 {
             header_up Host {http.request.host}
             header_up X-Real-IP {http.request.remote.host}
             header_up X-Forwarded-For {http.request.remote}

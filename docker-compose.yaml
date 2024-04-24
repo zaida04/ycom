@@ -2,8 +2,6 @@ version: '3'
 services:
   mongo:
     image: mongo:4.2.5
-    ports:
-      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: webcrawlers
       MONGO_INITDB_ROOT_PASSWORD: blah
@@ -23,7 +21,7 @@ services:
       context: .
       dockerfile: Dockerfile.api
       args:
-        - NEXT_PUBLIC_WS_PUBLIC_URL=http://localhost:3001
+        - NEXT_PUBLIC_WS_PUBLIC_URL=https://localhost
         - NEXT_PUBLIC_API_URL=https://localhost
     env_file:
       - .env.docker
