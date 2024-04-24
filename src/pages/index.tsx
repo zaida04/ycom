@@ -46,7 +46,7 @@ export default function Home() {
             <p>It's fun, I promise.</p>
           </div>}
 
-        {getPosts.isLoading ?
+        {getPosts.isSuccess ?
           posts.map((post) => (
             <Post key={post._id} showLink={true} {...post} />
           )) :
