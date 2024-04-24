@@ -13,7 +13,7 @@ export const userRouter = router({
         .input(
             z.object({
                 name: z.string().min(2).max(30),
-                email: z.string().email(),
+                email: z.string().email().min(2).max(50),
                 username: z.string().min(2).max(30),
                 password: z.string().min(3).max(30),
                 confirmPassword: z.string().min(3).max(30),
@@ -167,7 +167,7 @@ export const userRouter = router({
         .input(
             z.object({
                 name: z.string().min(2).max(30).optional(),
-                email: z.string().email().optional(),
+                email: z.string().email().min(2).max(50).optional(),
                 username: z.string().min(2).max(30).optional(),
                 password: z.string().min(3).max(30).optional(),
                 confirmPassword: z.string().min(3).max(30).optional(),
