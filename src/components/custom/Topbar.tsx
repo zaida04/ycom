@@ -10,7 +10,7 @@ export default function Topbar() {
     const user = useUser();
     const logout = trpc.user.logout.useMutation();
 
-    return <div className="fixed top-8 right-8">
+    return <div className="flex flex-row gap-2 justify-end mb-8 mx-8">
         {user === null ?
             <>
                 <Dialog>
