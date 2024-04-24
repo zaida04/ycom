@@ -2,8 +2,8 @@ version: '3'
 services:
   mongo:
     image: mongo:4.2.5
-    # ports:
-    #   - "27017:27017"
+    ports:
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: webcrawlers
       MONGO_INITDB_ROOT_PASSWORD: blah
@@ -14,14 +14,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.ws
-    environment:
-      NODE_ENV: development
+    env_file:
+      - .env.docker
   api:
     build:
       context: .
       dockerfile: Dockerfile.api
-    environment:
-      NODE_ENV: development
+    env_file:
+      - .env.docker
+
 
   caddy:
     image: caddy:2
