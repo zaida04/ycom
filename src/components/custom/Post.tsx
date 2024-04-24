@@ -22,7 +22,7 @@ export default function Post(props: Pick<SafePost, "_id" | "title" | "content" |
     return <div className="w-[45rem] border-2 px-6 py-8 rounded-xl">
         <div className="flex flex-row gap-4">
             <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <AvatarImage src="/pfp.png" alt="@shadcn" />
                 <AvatarFallback>ZA</AvatarFallback>
             </Avatar>
 

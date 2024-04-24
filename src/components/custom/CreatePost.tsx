@@ -52,7 +52,7 @@ export default function CreatePost() {
                 <div className="flex items-start space-x-4">
                     <div className="avatar">
                         <div className="rounded-full w-10 h-10">
-                            <img src="https://github.com/shadcn.png" alt="User Avatar" />
+                            <img src="/pfp.png" alt="User Avatar" />
                         </div>
                     </div>
 

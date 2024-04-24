@@ -27,7 +27,7 @@ export default function UserPage() {
             <div className="flex flex-col gap-4 px-8 mt-8">
                 <div className='w-[49rem] border-2 p-8 rounded-xl'>
                     <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                        <AvatarImage src="/pfp.png" alt="@shadcn" />
                         <AvatarFallback>ZA</AvatarFallback>
                     </Avatar>
 

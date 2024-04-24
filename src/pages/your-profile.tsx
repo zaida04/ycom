@@ -73,7 +73,7 @@ export default function MyProfile() {
 
                 <div className="flex items-center gap-4 mb-8">
                     <Avatar className="w-24 h-24">
-                        <AvatarImage src="https://github.com/shadcn.png" alt="Profile Image" />
+                        <AvatarImage src="/pfp.png" alt="Profile Image" />
                         <AvatarFallback>U</AvatarFallback>
                     </Avatar>
                     <Button variant="outline" className="py-2 px-4">Change Photo</Button>

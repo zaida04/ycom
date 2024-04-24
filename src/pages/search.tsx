@@ -22,7 +22,7 @@ export default function SearchUsers() {
 
                 <div className="flex flex-col gap-4 mt-4">
                     {results.length ? results.map((user) => (
-                        <UserItem key={user._id} name={user.name} username={user.username} id={user._id} avatar="https://github.com/shadcn.png" />
+                        <UserItem key={user._id} name={user.name} username={user.username} id={user._id} avatar="/pfp.png" />
                     )) :
                         <h1>No results</h1>
                     }
@@ -43,7 +43,7 @@ function UserItem(props: {
     return (
         <div className="flex items-center gap-4 border-2 p-3 rounded-xl">
             <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <AvatarImage src="/pfp.png" alt="@shadcn" />
                 <AvatarFallback>ZA</AvatarFallback>
             </Avatar>
 
