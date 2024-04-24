@@ -12,8 +12,8 @@ t.procedure.use(createTRPCStoreLimiter<typeof t>({
         `Too many requests, please try again later. ${Math.ceil(
             (hitInfo - Date.now()) / 1000
         )}`,
-    max: 40,
-    windowMs: 10000,
+    max: 80,
+    windowMs: 2000,
 })
 )
 

@@ -3,7 +3,6 @@ import { procedure, protectedProcedure, router } from './trpc';
 import "@/db/mongoose";
 import Post from "@/db/Post";
 import { TRPCError } from '@trpc/server';
-import EventEmitter from 'events';
 import { wsApiUrl } from '@/env';
 
 export const postRouter = router({
