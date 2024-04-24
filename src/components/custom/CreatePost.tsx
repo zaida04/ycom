@@ -6,15 +6,17 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { TRPCClientErr, trpc } from "@/lib/trpc";
+import { useToast } from "../ui/use-toast";
 
 interface PostFormData {
     content: string;
     title: string;
 }
 export default function CreatePost() {
-    const { register, handleSubmit } = useForm<PostFormData>();
+    const { register, handleSubmit, reset } = useForm<PostFormData>();
     const createPost = trpc.post.createPost.useMutation();
     const [error, setError] = useState<string | null>(null);
+    const { toast } = useToast();
 
     return (
         <>
@@ -25,14 +27,14 @@ export default function CreatePost() {
             </Alert>}
 
             <form className="p-4 rounded-lg w-[45rem] border-2" onSubmit={handleSubmit(async (data) => {
-                if (!data.title || !data.content) {
-                    setError("Please fill out all fields.");
-                    return;
-                }
-
                 try {
                     await createPost.mutateAsync(data);
                     setError(null);
+                    reset();
+                    toast({
+                        title: "Post Created",
+                        description: "Your post has been created successfully!",
+                    })
                 } catch (error) {
                     setError((error as TRPCClientErr).message);
                 }
@@ -41,7 +43,9 @@ export default function CreatePost() {
                     <Input
                         className="input text-2xl border w-full"
                         placeholder="Your Post Title"
-                        {...register("title")}
+                        {...register("title", {
+                            required: "Title is required"
+                        })}
                     />
                 </div>
 
@@ -56,7 +60,9 @@ export default function CreatePost() {
                         placeholder="Say something!"
                         rows={3}
                         className="textarea textarea-sm flex-1 border"
-                        {...register("content")}
+                        {...register("content", {
+                            required: "Content is required"
+                        })}
                     />
                 </div>
 

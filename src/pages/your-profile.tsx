@@ -11,6 +11,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { ModalInputProps } from "@/components/custom/ModalInput";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { no_refetch } from "@/lib/utils";
+import NotLoggedIn from "@/components/layout/NotLoggedIn";
+import { useUser } from "@/lib/user";
 
 interface ProfileFormInputs {
     name: string;
@@ -26,6 +28,7 @@ export default function MyProfile() {
     const existing = trpc.user.getCurrentUser.useQuery(undefined, no_refetch);
     const { register, handleSubmit, formState, reset } = useForm<ProfileFormInputs>();
     const mutation = trpc.user.updateProfile.useMutation();
+    const user = useUser();
 
     const onSubmit = async (data: ProfileFormInputs) => {
         try {
@@ -54,6 +57,8 @@ export default function MyProfile() {
             email: existing.data?.email ?? "",
         });
     }, [existing.data]);
+
+    if (user == null) return <NotLoggedIn />
 
     return (
         <DefaultLayout>
