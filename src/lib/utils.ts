@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const no_refetch = {
-  "refetchOnMount": false,
+  "refetchOnMount": true,
   "refetchOnReconnect": false,
   "refetchOnWindowFocus": false,
   "refetchInterval": false,
