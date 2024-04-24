@@ -48,5 +48,5 @@ jobs:
                   port: 22
                   script: |
                       cd 312p2
-                      bun p pull
-                      bun p up -d --force-recreate ws api caddy mongo
+                      /root/.bun/bin/bun p pull
+                      /root/.bun/bin/bun p up -d --force-recreate ws api caddy mongo
