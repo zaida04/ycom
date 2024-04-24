@@ -8,6 +8,7 @@ import { SafePost } from "@/lib/types";
 import { useUser } from "@/lib/user";
 import { useSocket } from "@/ws/hook";
 import { useAtom } from "jotai";
+import { LoaderIcon } from "lucide-react";
 import { useEffect } from "react";
 
 export default function Home() {
@@ -31,6 +32,12 @@ export default function Home() {
       socket.off('newPost');
     };
   }, [socket]);
+
+  if (getPosts.isLoading) return <DefaultLayout>
+    <div className="flex w-full h-full justify-center items-center">
+      <LoaderIcon className="w-64 h-64" />
+    </div>
+  </DefaultLayout>
 
   return (
     <DefaultLayout>
