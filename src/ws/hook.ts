@@ -6,6 +6,7 @@ export function useSocket() {
     const [socket, setSocket] = useState<Socket | null>(null);
 
     useEffect(() => {
+        console.log(`Connecting to ${wsPublicUrl}.`)
         const socketIo = io(wsPublicUrl, {
             reconnection: true,
             reconnectionAttempts: 5,

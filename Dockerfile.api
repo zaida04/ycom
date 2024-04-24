@@ -6,10 +6,15 @@ COPY package.json bun.lockb ./
 RUN bun install --frozen-lockfile
 COPY next.config.mjs postcss.config.mjs tailwind.config.ts tsconfig.json ./
 COPY src ./src
-RUN bun run build
 
 ENV NODE_ENV=production
-USER bun
+ARG NEXT_PUBLIC_WS_PUBLIC_URL
+ENV NEXT_PUBLIC_WS_PUBLIC_URL=${NEXT_PUBLIC_WS_PUBLIC_URL}
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
+RUN bun run build
+
+USER bun
 EXPOSE 3000/tcp
 ENTRYPOINT ["bun", "run", "start"]

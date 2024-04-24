@@ -9,6 +9,7 @@ const io = new SocketIOServer(server);
 app.use(express.json());
 
 app.get('/', (req, res) => {
+    console.log("hi!");
     res.send('<h1>Hello World!</h1>');
 });
 
@@ -36,5 +37,6 @@ io.on('connection', (socket) => {
 });
 
 server.listen(3001, () => {
+    console.log(":)");
     console.log('listening on *:3001');
 });
