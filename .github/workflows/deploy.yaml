@@ -34,3 +34,19 @@ jobs:
                   file: Dockerfile.${{ matrix.service }}
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
+    deploy:
+        name: Deploy on droplet
+        needs: [docker]
+        runs-on: ubuntu-latest
+        steps:
+            - name: executing remote ssh commands using ssh key
+              uses: appleboy/ssh-action@master
+              with:
+                  host: 192.241.148.27
+                  username: root
+                  password: ${{ secrets.VPS_PASSWORD }}
+                  port: 22
+                  script: |
+                      cd 312p2
+                      bun p pull
+                      bun p up -d --force-recreate ws api caddy mongo

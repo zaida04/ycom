@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:ws": "bun --watch src/ws/server.ts",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",

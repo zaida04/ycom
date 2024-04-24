@@ -1,4 +1,4 @@
-import { wsPublicUrl } from '@/env';
+import { IsProd, wsPublicUrl } from '@/env';
 import { useState, useEffect } from 'react';
 import { Socket, io } from 'socket.io-client';
 
@@ -8,7 +8,7 @@ export function useSocket() {
     useEffect(() => {
         console.log(`Connecting to ${wsPublicUrl}.`)
         const socketIo = io(wsPublicUrl, {
-            path: "/ws/socket.io",
+            path: IsProd ? "/ws/socket.io" : undefined,
             reconnection: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 3000,
