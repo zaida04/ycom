@@ -34,7 +34,6 @@ export default function Home() {
   }, [socket]);
 
   if (getPosts.isLoading) return <DefaultLayout>
-    <Topbar />
     <LoaderIcon className="w-32 h-32" />
   </DefaultLayout>
 
