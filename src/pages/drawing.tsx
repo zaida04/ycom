@@ -40,8 +40,10 @@ export default function DrawingBoard() {
 
         const handleMouseMove = (event: MouseEvent) => {
             const rect = canvas.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (event.clientX - rect.left) * scaleX;
+            const y = (event.clientY - rect.top) * scaleY;
             draw(x, y, isDrawing);
             if (isDrawing) {
                 socket?.emit('drawing', { x, y, isDrawing });
