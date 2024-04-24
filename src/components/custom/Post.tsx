@@ -45,23 +45,27 @@ export default function Post(props: Pick<SafePost, "_id" | "title" | "content" |
                                 <TrashIcon />
                             </Button>}
 
-                        <Button variant="outline" size="sm">
-                            <Link href={`/posts/${props._id}`}>
+                        <Link href={`/posts/${props._id}`}>
+                            <Button variant="outline" size="sm">
                                 <ExternalLinkIcon className="text-slate-500" />
-                            </Link>
-                        </Button>
+                            </Button>
+                        </Link>
 
 
-                        <Button variant="outline" size="sm">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                                navigator.clipboard.writeText(`${window.location.origin}/posts/${props._id}`);
+                                toast({
+                                    title: "Copied link to your clipboard!",
+                                    description: `You can now share with your friends.`,
+                                    duration: 5000
+                                })
+                            }}
+                        >
                             <LinkIcon
                                 className="text-slate-500"
-                                onClick={() => {
-                                    toast({
-                                        title: "Copied link to your clipboard!",
-                                        description: `You can now share with your friends.`,
-                                        duration: 5000
-                                    })
-                                }}
                             />
                         </Button>
 
