@@ -27,12 +27,5 @@ export function useSocket() {
 }
 
 function getSocketUrl() {
-    switch (process.env.NODE_ENV) {
-        case 'development':
-            return 'http://localhost:3001';
-        case 'production':
-            return 'https://your-production-url.com';
-        default:
-            return 'http://localhost:3001';
-    }
+    return process.env.NEXT_PUBLIC_WS_URL ?? 'http://localhost:3001';
 }

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { procedure, protectedProcedure, router } from './trpc';
-import "@/lib/mongoose";
+import "@/db/mongoose";
 import User from "@/db/User";
 import bcrypt from "bcryptjs";
 import { generateHashedValue } from '@/lib/hash';

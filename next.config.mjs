@@ -5,4 +5,5 @@ const nextConfig = {
   reactStrictMode: true,
 };
 
-export default withHydrationOverlay()(nextConfig);
+// export default withHydrationOverlay()(nextConfig);
+export default nextConfig;

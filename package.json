@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "start": "next start",
     "typecheck": "tsc --noEmit",
     "start:db": "docker compose up -d mongo",
     "add": "shadcn-ui add"

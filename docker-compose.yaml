@@ -7,9 +7,43 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: webcrawlers
       MONGO_INITDB_ROOT_PASSWORD: blah
-      MONGO_INITDB_DATABASE: cse312
     volumes:
       - mongo-vol:/data/db
 
+  ws:
+    build:
+      context: .
+      dockerfile: Dockerfile.ws
+    environment:
+      DATABASE_URL: mongodb://webcrawlers:blah@mongo:27017/
+    ports:
+      - "3001:3001"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      WS_URL: ws://ws:3001
+      DATABASE_URL: mongodb://webcrawlers:blah@mongo:27017/
+      NEXT_PUBLIC_WS_URL: http://localhost
+    ports:
+      - "3000:3000"
+
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+      - ws
+
 volumes:
   mongo-vol:
+  caddy_data:
+  caddy_config:

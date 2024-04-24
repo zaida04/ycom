@@ -1,0 +1,9 @@
+localhost, 312.nico.engineer {
+    reverse_proxy /api/* localhost:3000
+
+    reverse_proxy /ws/* localhost:3001 {
+        uri strip_prefix /ws
+    }
+
+    reverse_proxy localhost:3000
+}

@@ -1,13 +1,9 @@
 import { z } from 'zod';
 import { procedure, protectedProcedure, router } from './trpc';
-import "@/lib/mongoose";
-import Post, { IPost } from "@/db/Post";
+import "@/db/mongoose";
+import Post from "@/db/Post";
 import { TRPCError } from '@trpc/server';
 import EventEmitter from 'events';
-import { observable } from '@trpc/server/observable';
-import { SafePost } from '@/lib/types';
-
-const emitter = new EventEmitter();
 
 export const postRouter = router({
     createPost: protectedProcedure
@@ -29,7 +25,7 @@ export const postRouter = router({
 
             try {
                 console.log('Broadcasting newPost', created);
-                const req = await fetch('http://localhost:3001/broadcast', {
+                const req = await fetch(process.env.WS_URL ?? 'http://localhost:3001/broadcast', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
