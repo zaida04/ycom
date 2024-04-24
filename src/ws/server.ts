@@ -31,6 +31,8 @@ io.on('connection', (socket) => {
         console.log('user disconnected');
     });
 
+    socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
+
     setInterval(() => {
         socket.emit('time', new Date().toTimeString());
     }, 10_000);
