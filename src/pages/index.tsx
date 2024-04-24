@@ -33,6 +33,11 @@ export default function Home() {
     };
   }, [socket]);
 
+  if (getPosts.isLoading) return <DefaultLayout>
+    <Topbar />
+    <LoaderIcon className="w-32 h-32" />
+  </DefaultLayout>
+
 
   return (
     <DefaultLayout>
@@ -46,11 +51,9 @@ export default function Home() {
             <p>It's fun, I promise.</p>
           </div>}
 
-        {getPosts.isSuccess ?
-          posts.map((post) => (
-            <Post key={post._id} showLink={true} {...post} />
-          )) :
-          <LoaderIcon className="w-32 h-32" />}
+        {posts.map((post) => (
+          <Post key={post._id} showLink={true} {...post} />
+        ))}
       </div>
     </DefaultLayout>
   );
