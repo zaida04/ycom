@@ -2,6 +2,7 @@ version: '3'
 services:
   mongo:
     image: mongo:4.2.5
+    # this is for debugging. i have a firewall (ufw) blocking this from public access
     ports:
       - 27017:27017
     environment:
