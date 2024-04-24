@@ -24,7 +24,6 @@ export default function Home() {
     if (!socket) return;
 
     socket.on('newPost', (post: SafePost) => {
-      console.log(post);
       setPosts((posts) => [post, ...posts]);
     });
 
@@ -37,7 +36,7 @@ export default function Home() {
     <DefaultLayout>
       <Topbar />
 
-      <div className="flex flex-col gap-4 px-8">
+      <div className="flex flex-col gap-4 px-8 mt-8">
         {user ?
           <CreatePost /> :
           <div className="px-6 py-8 border-4 border-dashed rounded-xl w-[45rem]">

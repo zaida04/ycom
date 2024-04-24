@@ -20,8 +20,6 @@ export default function UserPage() {
         return <p>Error loading the user or user not found.</p>;
     }
 
-    console.log(user.data);
-
     return (
         <DefaultLayout>
             <Link href="/">← Go back</Link>
