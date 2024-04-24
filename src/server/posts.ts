@@ -4,6 +4,7 @@ import "@/db/mongoose";
 import Post from "@/db/Post";
 import { TRPCError } from '@trpc/server';
 import EventEmitter from 'events';
+import { wsApiUrl } from '@/env';
 
 export const postRouter = router({
     createPost: protectedProcedure
@@ -25,7 +26,7 @@ export const postRouter = router({
 
             try {
                 console.log('Broadcasting newPost', created);
-                const req = await fetch(process.env.WS_URL ?? 'http://localhost:3001/broadcast', {
+                const req = await fetch(wsApiUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

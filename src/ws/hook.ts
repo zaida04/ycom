@@ -1,3 +1,4 @@
+import { wsPublicUrl } from '@/env';
 import { useState, useEffect } from 'react';
 import { Socket, io } from 'socket.io-client';
 
@@ -5,7 +6,7 @@ export function useSocket() {
     const [socket, setSocket] = useState<Socket | null>(null);
 
     useEffect(() => {
-        const socketIo = io(getSocketUrl(), {
+        const socketIo = io(wsPublicUrl, {
             reconnection: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 3000,
@@ -24,8 +25,4 @@ export function useSocket() {
     }, []);
 
     return socket;
-}
-
-function getSocketUrl() {
-    return process.env.NEXT_PUBLIC_WS_URL ?? 'http://localhost:3001';
 }

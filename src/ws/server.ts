@@ -29,6 +29,10 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
+
+    setInterval(() => {
+        socket.emit('time', new Date().toTimeString());
+    }, 10_000);
 });
 
 server.listen(3001, () => {

@@ -1,3 +1,4 @@
+import { dbUrl } from '@/env';
 import mongoose from 'mongoose';
 
 const options: mongoose.ConnectOptions = {
@@ -8,4 +9,4 @@ const options: mongoose.ConnectOptions = {
     socketTimeoutMS: 5000,
 };
 
-mongoose.connect(process.env.DATABASE_URL ?? "mongodb://webcrawlers:blah@localhost:27017/", options);
+mongoose.connect(dbUrl, options);

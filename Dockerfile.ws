@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 COPY package.json bun.lockb ./
 
 RUN bun install --frozen-lockfile --production
-COPY . .
+COPY src ./src
 
 ENV NODE_ENV=production
 USER bun
