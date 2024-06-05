@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   mongo:
     image: mongo:4.2.5
@@ -30,7 +30,8 @@ services:
       - .env.docker
 
   caddy:
-    image: caddy:2
+    image: iarekylew00t/caddy-cloudflare:latest
+    container_name: caddy
     ports:
       - "80:80"
       - "443:443"
@@ -38,6 +39,9 @@ services:
       - ./proxy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
+    environment:
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
+    restart: unless-stopped
     depends_on:
       - api
       - ws

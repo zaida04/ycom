@@ -4,10 +4,13 @@
         level debug
         format console
     }
-    auto_https disable_redirects
 }
 
 localhost, y.nico.engineer {
+    tls {
+            dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+
     rewrite /ws/socket.io /ws/socket.io/
     reverse_proxy /ws/socket.io/* ws:3001 {
         header_up Host {http.request.host}
