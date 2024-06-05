@@ -4,6 +4,7 @@
         level debug
         format console
     }
+    auto_https disable_redirects
 }
 
 localhost, y.nico.engineer {
