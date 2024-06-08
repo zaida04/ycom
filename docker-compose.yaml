@@ -26,27 +26,29 @@ services:
       args:
         - NEXT_PUBLIC_WS_PUBLIC_URL=https://localhost
         - NEXT_PUBLIC_API_URL=https://localhost
+    ports:
+      - 3000:3000
     env_file:
       - .env.docker
 
-  caddy:
-    image: iarekylew00t/caddy-cloudflare:latest
-    container_name: caddy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./proxy/Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-    environment:
-      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
-    restart: unless-stopped
-    depends_on:
-      - api
-      - ws
+  # caddy:
+  #   image: iarekylew00t/caddy-cloudflare:latest
+  #   container_name: caddy
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./proxy/Caddyfile:/etc/caddy/Caddyfile
+  #     - caddy_data:/data
+  #     - caddy_config:/config
+  #   environment:
+  #     CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - api
+  #     - ws
 
 volumes:
   mongo-vol:
-  caddy_data:
-  caddy_config:
+  # caddy_data:
+  # caddy_config:
